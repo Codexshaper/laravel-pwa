@@ -1,30 +1,29 @@
 <?php
+
 namespace CodexShaper\PWA;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Str;
 
 class PWA
 {
     public function routes()
     {
-        require __DIR__ . '/../routes/pwa.php';
+        require __DIR__.'/../routes/pwa.php';
     }
 
     /**
-     * Load assests
+     * Load assests.
      *
-     * @param  string $path
+     * @param string $path
      *
      * @return \Illuminate\Http\Response
      */
     public function assets($path)
     {
-        $file = base_path(trim(config('pwa.resources_path'), '/') . "/" . urldecode($path));
+        $file = base_path(trim(config('pwa.resources_path'), '/').'/'.urldecode($path));
 
         if (File::exists($file)) {
-
             switch ($extension = pathinfo($file, PATHINFO_EXTENSION)) {
                 case 'js':
                     $mimeType = 'text/javascript';
@@ -48,5 +47,4 @@ class PWA
 
         return response('', 404);
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace CodexShaper\PWA\Commands;
 
 use CodexShaper\PWA\PwaServiceProvider;
@@ -26,10 +27,10 @@ class InstallPwa extends Command
      *
      * @var string
      */
-    protected $seedersPath = __DIR__ . '/../../database/seeds/';
+    protected $seedersPath = __DIR__.'/../../database/seeds/';
 
     /**
-     * Get Option
+     * Get Option.
      *
      * @return array
      */
@@ -47,9 +48,10 @@ class InstallPwa extends Command
      */
     protected function findComposer()
     {
-        if (file_exists(getcwd() . '/composer.phar')) {
-            return '"' . PHP_BINARY . '" ' . getcwd() . '/composer.phar';
+        if (file_exists(getcwd().'/composer.phar')) {
+            return '"'.PHP_BINARY.'" '.getcwd().'/composer.phar';
         }
+
         return 'composer';
     }
 
@@ -72,7 +74,7 @@ class InstallPwa extends Command
 
         $this->info('Dumping the autoloaded files and reloading all new files');
         $composer = $this->findComposer();
-        $process  = new Process($composer . ' dump-autoload');
+        $process = new Process($composer.' dump-autoload');
         $process->setTimeout(null); // Setting timeout to null to prevent installation from stopping at a certain point in time
         $process->setWorkingDirectory(base_path())->run();
 
@@ -85,7 +87,7 @@ class InstallPwa extends Command
                 "\n\PWA::routes();\n"
             );
         }
-        if($filesystem->exists(base_path('routes/tenant.php'))) {
+        if ($filesystem->exists(base_path('routes/tenant.php'))) {
             $this->info('Adding Permission routes to routes/tenant.php');
             $routes_contents = $filesystem->get(base_path('routes/tenant.php'));
             if (false === strpos($routes_contents, 'PWA::routes();')) {
