@@ -17,7 +17,7 @@
     "type": "library",
     "minimum-stability": "dev",
     "require": {
-        "php": "^7.2",
+        "php": "^7.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.0|^8.0"
