@@ -3,11 +3,11 @@
 namespace CodexShaper\PWA\Http\Controllers;
 
 use CodexShaper\PWA\Model\Setting;
+use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
-use Exception;
+use Illuminate\Support\Facades\Storage;
 
 class PwaController extends Controller
 {
@@ -19,7 +19,7 @@ class PwaController extends Controller
     public function index()
     {
         $pwa = $this->getPwaInstance();
-        
+
         return view('pwa::index', compact('pwa'));
     }
 
@@ -36,36 +36,37 @@ class PwaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        if(! File::isDirectory(storage_path('app/public/pwa/images/icons')) ) {
+        if (!File::isDirectory(storage_path('app/public/pwa/images/icons'))) {
             File::makeDirectory(storage_path('app/public/pwa/images/icons'), 0777, true);
         }
 
-        File::copyDirectory(public_path() . '/images/icons', storage_path('app/public/pwa/images/icons'));
+        File::copyDirectory(public_path().'/images/icons', storage_path('app/public/pwa/images/icons'));
 
         $pwa = $this->getPwaInstance();
 
-        if(! $pwa) {
+        if (!$pwa) {
             $pwa = new Setting();
         }
 
         $domain = request()->getHttpHost();
         $tenant_id = null;
-        if(function_exists('tenant') && isset(tenant()->id)) {
+        if (function_exists('tenant') && isset(tenant()->id)) {
             $tenant_id = tenant()->id;
         }
 
         $data = $this->getManifestData([
-            'name' => 'Demo App',
-            'short_name' => 'DA',
-            'start_url' => 'https://' . $domain . '/',
+            'name'             => 'Demo App',
+            'short_name'       => 'DA',
+            'start_url'        => 'https://'.$domain.'/',
             'background_color' => '#ffffff',
-            'theme_color' => '#000000',
-            'display' => 'standalone',
+            'theme_color'      => '#000000',
+            'display'          => 'standalone',
         ]);
 
         $data['serviceworker'] = $this->generateServiceWorker();
@@ -111,7 +112,8 @@ class PwaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\PwaSetting  $pwaSetting
+     * @param \App\PwaSetting $pwaSetting
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Setting $Setting)
@@ -122,7 +124,8 @@ class PwaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\PwaSetting  $pwaSetting
+     * @param \App\PwaSetting $pwaSetting
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit(Setting $Setting)
@@ -133,53 +136,54 @@ class PwaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\PwaSetting  $pwaSetting
+     * @param \Illuminate\Http\Request $request
+     * @param \App\PwaSetting          $pwaSetting
+     *
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, Setting $Setting)
     {
         $request->validate([
-            'name' => 'required',
-            'short_name' => 'required',
-            'start_url' => 'required',
+            'name'             => 'required',
+            'short_name'       => 'required',
+            'start_url'        => 'required',
             'background_color' => 'required',
-            'theme_color' => 'required',
-            'display' => 'required',
+            'theme_color'      => 'required',
+            'display'          => 'required',
         ]);
-        if(isset($request->icons) && count($request->icons) > 0) {
+        if (isset($request->icons) && count($request->icons) > 0) {
             foreach ($request->icons as $key => $icon) {
-               $destination_path = 'pwa/images/icons/icon-' . $key . '.png';
-               Storage::disk('public')->putFileAs('', $icon, $destination_path);
+                $destination_path = 'pwa/images/icons/icon-'.$key.'.png';
+                Storage::disk('public')->putFileAs('', $icon, $destination_path);
             }
         }
-        
-        if(isset($request->splashes) && count($request->splashes)) {
+
+        if (isset($request->splashes) && count($request->splashes)) {
             foreach ($request->splashes as $key => $splash) {
-               $destination_path = 'pwa/images/icons/splash-' . $key . '.png';
-               Storage::disk('public')->putFileAs('', $splash, $destination_path);
+                $destination_path = 'pwa/images/icons/splash-'.$key.'.png';
+                Storage::disk('public')->putFileAs('', $splash, $destination_path);
             }
         }
 
         $pwa = $this->getPwaInstance();
 
-        if(! $pwa) {
+        if (!$pwa) {
             $pwa = new Setting();
         }
 
         $domain = request()->getHttpHost();
         $tenant_id = null;
-        if(function_exists('tenant') && isset(tenant()->id)) {
+        if (function_exists('tenant') && isset(tenant()->id)) {
             $tenant_id = tenant()->id;
         }
 
         $data = $this->getManifestData([
-            'name' => $request->name,
-            'short_name' => $request->short_name,
-            'start_url' => $request->start_url,
+            'name'             => $request->name,
+            'short_name'       => $request->short_name,
+            'start_url'        => $request->start_url,
             'background_color' => $request->background_color,
-            'theme_color' => $request->theme_color,
-            'display' => $request->display,
+            'theme_color'      => $request->theme_color,
+            'display'          => $request->display,
         ]);
 
         $data['serviceworker'] = $this->generateServiceWorker();
@@ -196,28 +200,29 @@ class PwaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\PwaSetting  $pwaSetting
+     * @param \App\PwaSetting $pwaSetting
+     *
      * @throws \Exception
+     *
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function destroy(Setting $Setting)
     {
         try {
-            if(File::isDirectory(storage_path('app/public/pwa')) ) {
+            if (File::isDirectory(storage_path('app/public/pwa'))) {
                 File::deleteDirectory(storage_path('app/public/pwa'));
             }
 
             $pwa = $this->getPwaInstance();
 
-            if($pwa) {
+            if ($pwa) {
                 $pwa->delete();
+
                 return redirect(route('pwa'))->with('success', 'Pwa deleted successfully.');
             }
-
-        } catch(Exception $ex) {
+        } catch (Exception $ex) {
             throw new Exception($ex->getMessage());
         }
-        
     }
 
     /**
@@ -239,65 +244,66 @@ class PwaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function offline(){
+    public function offline()
+    {
         return view('pwa::offline');
     }
 
     /**
      * Prepare manifest data.
      *
-     * @param  array  $manifest
+     * @param array $manifest
+     *
      * @return array
      */
     public static function prepareManifest($manifest)
     {
-        $data =  [
-            'name' => $manifest['name'],
-            'short_name' => $manifest['short_name'],
-            'start_url' => asset($manifest['start_url']),
-            'display' => $manifest['display'],
-            'theme_color' => $manifest['theme_color'],
+        $data = [
+            'name'             => $manifest['name'],
+            'short_name'       => $manifest['short_name'],
+            'start_url'        => asset($manifest['start_url']),
+            'display'          => $manifest['display'],
+            'theme_color'      => $manifest['theme_color'],
             'background_color' => $manifest['background_color'],
-            'orientation' =>  $manifest['orientation'],
-            'status_bar' =>  $manifest['status_bar'],
-            'splash' =>  $manifest['splash']
+            'orientation'      => $manifest['orientation'],
+            'status_bar'       => $manifest['status_bar'],
+            'splash'           => $manifest['splash'],
         ];
 
         foreach ($manifest['icons'] as $size => $file) {
             $fileInfo = pathinfo($file['path']);
             $data['icons'][] = [
-                'src' => $file['path'],
-                'type' => 'image/' . $fileInfo['extension'],
-                'sizes' => $size,
-                'purpose' => $file['purpose']
+                'src'     => $file['path'],
+                'type'    => 'image/'.$fileInfo['extension'],
+                'sizes'   => $size,
+                'purpose' => $file['purpose'],
             ];
         }
 
         foreach ($manifest['shortcuts'] as $shortcut) {
-
-            if (array_key_exists("icons", $shortcut)) {
+            if (array_key_exists('icons', $shortcut)) {
                 $fileInfo = pathinfo($shortcut['icons']['src']);
                 $icon = [
-                    'src' => $shortcut['icons']['src'],
-                    'type' => 'image/' . $fileInfo['extension'],
-                    'purpose' => $shortcut['icons']['purpose']
+                    'src'     => $shortcut['icons']['src'],
+                    'type'    => 'image/'.$fileInfo['extension'],
+                    'purpose' => $shortcut['icons']['purpose'],
                 ];
             } else {
                 $icon = [];
             }
 
             $data['shortcuts'][] = [
-                'name' => trans($shortcut['name']),
+                'name'        => trans($shortcut['name']),
                 'description' => trans($shortcut['description']),
-                'url' => $shortcut['url'],
-                'icons' => [
-                        $icon
-                    ]
+                'url'         => $shortcut['url'],
+                'icons'       => [
+                    $icon,
+                ],
             ];
         }
 
-        foreach ( $manifest['custom'] as $tag => $value) {
-             $data[$tag] = $value;
+        foreach ($manifest['custom'] as $tag => $value) {
+            $data[$tag] = $value;
         }
 
         return $data;
@@ -306,60 +312,61 @@ class PwaController extends Controller
     /**
      * Prepare manifest data from request for database.
      *
-     * @param  array  $data
+     * @param array $data
+     *
      * @return array
      */
     protected function getManifestData($data)
     {
         return [
-            'name' => $data['name'],
+            'name'     => $data['name'],
             'manifest' => [
-                'name' => $data['name'],
-                'short_name' => $data['short_name'],
-                'start_url' => $data['start_url'],
+                'name'             => $data['name'],
+                'short_name'       => $data['short_name'],
+                'start_url'        => $data['start_url'],
                 'background_color' => $data['background_color'],
-                'theme_color' => $data['theme_color'],
-                'display' => $data['display'],
-                'orientation'=> 'any',
-                'status_bar'=> 'black',
-                'icons' => [
+                'theme_color'      => $data['theme_color'],
+                'display'          => $data['display'],
+                'orientation'      => 'any',
+                'status_bar'       => 'black',
+                'icons'            => [
                     '72x72' => [
-                        'path' => pwa_asset('images/icons/icon-72x72.png'),
-                        'purpose' => 'any'
+                        'path'    => pwa_asset('images/icons/icon-72x72.png'),
+                        'purpose' => 'any',
                     ],
                     '96x96' => [
-                        'path' => pwa_asset('images/icons/icon-96x96.png'),
-                        'purpose' => 'any'
+                        'path'    => pwa_asset('images/icons/icon-96x96.png'),
+                        'purpose' => 'any',
                     ],
                     '128x128' => [
-                        'path' => pwa_asset('images/icons/icon-128x128.png'),
-                        'purpose' => 'any'
+                        'path'    => pwa_asset('images/icons/icon-128x128.png'),
+                        'purpose' => 'any',
                     ],
                     '144x144' => [
-                        'path' => pwa_asset('images/icons/icon-144x144.png'),
-                        'purpose' => 'any'
+                        'path'    => pwa_asset('images/icons/icon-144x144.png'),
+                        'purpose' => 'any',
                     ],
                     '152x152' => [
-                        'path' => pwa_asset('images/icons/icon-152x152.png'),
-                        'purpose' => 'any'
+                        'path'    => pwa_asset('images/icons/icon-152x152.png'),
+                        'purpose' => 'any',
                     ],
                     '192x192' => [
-                        'path' => pwa_asset('images/icons/icon-192x192.png'),
-                        'purpose' => 'any'
+                        'path'    => pwa_asset('images/icons/icon-192x192.png'),
+                        'purpose' => 'any',
                     ],
                     '384x384' => [
-                        'path' => pwa_asset('images/icons/icon-384x384.png'),
-                        'purpose' => 'any'
+                        'path'    => pwa_asset('images/icons/icon-384x384.png'),
+                        'purpose' => 'any',
                     ],
                     '512x512' => [
-                        'path' => pwa_asset('images/icons/icon-512x512.png'),
-                        'purpose' => 'any'
+                        'path'    => pwa_asset('images/icons/icon-512x512.png'),
+                        'purpose' => 'any',
                     ],
                 ],
                 'splash' => [
-                    '640x1136' => pwa_asset('images/icons/splash-640x1136.png'),
-                    '750x1334' => pwa_asset('images/icons/splash-750x1334.png'),
-                    '828x1792' => pwa_asset('images/icons/splash-828x1792.png'),
+                    '640x1136'  => pwa_asset('images/icons/splash-640x1136.png'),
+                    '750x1334'  => pwa_asset('images/icons/splash-750x1334.png'),
+                    '828x1792'  => pwa_asset('images/icons/splash-828x1792.png'),
                     '1125x2436' => pwa_asset('images/icons/splash-1125x2436.png'),
                     '1242x2208' => pwa_asset('images/icons/splash-1242x2208.png'),
                     '1242x2688' => pwa_asset('images/icons/splash-1242x2688.png'),
@@ -369,8 +376,8 @@ class PwaController extends Controller
                     '2048x2732' => pwa_asset('images/icons/splash-2048x2732.png'),
                 ],
                 'shortcuts' => [],
-                'custom' => []
-            ]
+                'custom'    => [],
+            ],
         ];
     }
 
@@ -383,7 +390,7 @@ class PwaController extends Controller
     {
         $pwa = $this->getPwaInstance();
 
-        if($pwa) {
+        if ($pwa) {
             $response = Response::make($pwa->data['serviceworker'], 200);
             $response->header('Content-Type', 'text/javascript');
             $response->setSharedMaxAge(31536000);
@@ -403,7 +410,7 @@ class PwaController extends Controller
     {
         $pwa = $this->getPwaInstance();
 
-        if($pwa) {
+        if ($pwa) {
             $response = Response::make($pwa->data['register_serviceworker'], 200);
             $response->header('Content-Type', 'text/javascript');
             $response->setSharedMaxAge(31536000);
@@ -424,6 +431,7 @@ class PwaController extends Controller
         $public_path = asset('/');
         $pwa_asset = pwa_asset('');
         $base_url = url('/');
+
         return <<<SERVICE_WORKER
         var staticCacheName = "pwa-v" + new Date().getTime();
         var filesToCache = [
@@ -487,7 +495,8 @@ SERVICE_WORKER;
      */
     protected function generateServiceWorkerRegister()
     {
-        $serviceworker_route = route("pwa.serviceworker");
+        $serviceworker_route = route('pwa.serviceworker');
+
         return <<<REGISTER_SERVICE_WORKER
             // Get serviceworker contents
             var serviceworker = "$serviceworker_route";

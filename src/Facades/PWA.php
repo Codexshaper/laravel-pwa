@@ -1,4 +1,5 @@
 <?php
+
 namespace CodexShaper\PWA\Facades;
 
 use Illuminate\Support\Facades\Facade;
