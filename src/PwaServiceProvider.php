@@ -3,14 +3,12 @@
 namespace CodexShaper\PWA;
 
 use CodexShaper\PWA\Commands\InstallPwa;
-use CodexShaper\PWA\PWA;
 use CodexShaper\PWA\Model\Setting;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 
 class PwaServiceProvider extends ServiceProvider
 {
-
     /**
      * Boot the service provider.
      *
@@ -18,8 +16,8 @@ class PwaServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'pwa');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'pwa');
     }
 
     /**
@@ -33,7 +31,8 @@ class PwaServiceProvider extends ServiceProvider
             return new PWA();
         });
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/pwa.php', 'config'
+            __DIR__.'/../config/pwa.php',
+            'config'
         );
         $this->loadHelpers();
         $this->registerBladeDirectives();
@@ -54,7 +53,6 @@ class PwaServiceProvider extends ServiceProvider
                 echo view('pwa::meta', compact('pwa'))->render();
             });
         });
-
     }
 
     /**
@@ -64,7 +62,7 @@ class PwaServiceProvider extends ServiceProvider
      */
     protected function loadHelpers()
     {
-        foreach (glob(__DIR__ . '/Helpers/*.php') as $filename) {
+        foreach (glob(__DIR__.'/Helpers/*.php') as $filename) {
             require_once $filename;
         }
     }
@@ -78,25 +76,25 @@ class PwaServiceProvider extends ServiceProvider
     {
         $publishable = [
             'pwa.config'    => [
-                __DIR__ . '/../config/pwa.php' => config_path('pwa.php'),
+                __DIR__.'/../config/pwa.php' => config_path('pwa.php'),
             ],
             'pwa.migrations'    => [
-                __DIR__ . '/../database/migrations/' => database_path('migrations'),
+                __DIR__.'/../database/migrations/' => database_path('migrations'),
             ],
             'pwa.tenant.migrations'    => [
-                __DIR__ . '/../database/migrations/' => database_path('migrations/tenant'),
+                __DIR__.'/../database/migrations/' => database_path('migrations/tenant'),
             ],
             'pwa.seeds'     => [
-                __DIR__ . "/../database/seeds/" => database_path('seeds'),
+                __DIR__.'/../database/seeds/' => database_path('seeds'),
             ],
             'pwa.views'     => [
-                __DIR__ . '/../resources/views' => resource_path('views/vendor/pwa'),
+                __DIR__.'/../resources/views' => resource_path('views/vendor/pwa'),
             ],
             'pwa.resources' => [
-                __DIR__ . '/../resources' => resource_path('views/vendor/pwa'),
+                __DIR__.'/../resources' => resource_path('views/vendor/pwa'),
             ],
             'pwa.lang' => [
-                __DIR__ . '/../resources/lang' => resource_path('lang'),
+                __DIR__.'/../resources/lang' => resource_path('lang'),
             ],
         ];
 

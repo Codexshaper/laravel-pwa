@@ -1,6 +1,6 @@
 <?php
 
 return [
-	'base_domain'			=> 'localhost',
+    'base_domain'			        => 'localhost',
     'prefix'                => '/pwa',
 ];
