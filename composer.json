@@ -1,7 +1,12 @@
 {
     "name": "codexshaper/laravel-pwa",
     "description": "Laravel Progressive Web App",
-    "keywords": ["laravel", "pwa", "progressive", "web", "app", "multi-tenancy"],
+    "keywords": [
+        "laravel", "pwa", "progressive", "web", "app", 
+        "multi-tenancy", "pwa", "laravel", "multitenancy", "multitenant", "progressive-web-app",
+        "laravel-pwa", "pwa-laravel", "google-pwa", "ios-pwa", "firefox-pwa", "safari-pwa",
+        "ios", "android", "chrome", "safari", "firefox" 
+    ],
     "license": "MIT",
     "homepage": "https://github.com/Codexshaper/laravel-pwa",
     "support": {
