@@ -49,7 +49,7 @@ class PwaServiceProvider extends ServiceProvider
     protected function registerBladeDirectives()
     {
         $this->app->afterResolving('blade.compiler', function (BladeCompiler $blade) {
-            $blade->directive('RegisterPWA', function () {
+            $blade->directive('PWA', function () {
                 $pwa = Setting::where('domain', '=', request()->getHttpHost())->first();
                 echo view('pwa::meta', compact('pwa'))->render();
             });
@@ -96,7 +96,7 @@ class PwaServiceProvider extends ServiceProvider
                 __DIR__ . '/../resources' => resource_path('views/vendor/pwa'),
             ],
             'pwa.lang' => [
-                __DIR__ . '/../resources/assets/lang' => resource_path('lang'),
+                __DIR__ . '/../resources/lang' => resource_path('lang'),
             ],
         ];
 

@@ -159,7 +159,7 @@
                             <a class="collapse-link"><i class="fa fa-chevron-down"></i></a>
                         </div>
                     </div>
-                    <div class="ibox-content" style="display: none;">
+                    <div class="ibox-content" style="display: block;">
                         @foreach($pwa->data['manifest']['icons'] as $key => $icon)
 
                         <div class="form-group row">
@@ -188,7 +188,7 @@
                             <a class="collapse-link"><i class="fa fa-chevron-down"></i></a>
                         </div>
                     </div>
-                    <div class="ibox-content" style="display: none;">
+                    <div class="ibox-content" style="display: block;">
                         @foreach($pwa->data['manifest']['splash'] as $splash => $path)
                         <div class="form-group row">
                             <label class="col-lg-2 col-form-label pwa-label">{{ $splash }} <span>*</span></label>
