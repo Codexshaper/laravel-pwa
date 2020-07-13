@@ -8,18 +8,21 @@
 # Description
 Installable PWA for laravel. Implement PWA in your laravel website within 5 mins.
 
-# Download
+## Requirements
+It only suppoorts HTTPS and localhost (both HTTP and HTTPS)
+
+## Download
 ```
 composer require codexshaper/laravel-pwa
 ```
 
-# Install
+## Install
 
 ```
 php artisan pwa:install
 ```
 
-# Use: Add below before head tag close
+## Use: Add below code before closing head tag
 
 ```
 {{ pwa_meta() }}
@@ -30,3 +33,9 @@ OR
 ```
 @PWA
 ```
+
+## Finaly configure your own information. Go to {{url}}/pwa
+
+## Contributors
+
+* **Md Abu Ahsan Basir** - *Creator and Maintainer* - [github](https://github.com/maab16)
