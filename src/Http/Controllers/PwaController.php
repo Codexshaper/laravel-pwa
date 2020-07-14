@@ -20,7 +20,7 @@ class PwaController extends Controller
     {
         $pwa = $this->getPwaInstance();
 
-        return view('pwa::index', compact('pwa'));
+        return view('pwa::settings', compact('pwa'));
     }
 
     /**
