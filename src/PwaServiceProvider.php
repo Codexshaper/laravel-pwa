@@ -49,8 +49,7 @@ class PwaServiceProvider extends ServiceProvider
     {
         $this->app->afterResolving('blade.compiler', function (BladeCompiler $blade) {
             $blade->directive('PWA', function () {
-                $pwa = Setting::where('domain', '=', request()->getHttpHost())->first();
-                echo view('pwa::meta', compact('pwa'))->render();
+                return "<?php echo view('pwa::meta')->render();?>";
             });
         });
     }
@@ -77,6 +76,9 @@ class PwaServiceProvider extends ServiceProvider
         $publishable = [
             'pwa.config'    => [
                 __DIR__.'/../config/pwa.php' => config_path('pwa.php'),
+            ],
+            'pwa.migrations'    => [
+                __DIR__.'/../database/migrations/' => database_path('migrations'),
             ],
             'pwa.migrations'    => [
                 __DIR__.'/../database/migrations/' => database_path('migrations'),

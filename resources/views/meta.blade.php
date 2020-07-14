@@ -1,5 +1,5 @@
-@if(isset($pwa->status) && $pwa->status == 1)
-@php $manifest = $pwa->data['manifest']; @endphp
+@if(isset(pwa_settings()->status) && pwa_settings()->status == 1)
+@php $manifest = pwa_settings()->data['manifest']; @endphp
 <!-- Web application manifest -->
 <link rel="manifest" href="{{ route('pwa.manifest') }}">
 <!-- Theme color for chrome on android -->

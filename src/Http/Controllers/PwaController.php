@@ -24,16 +24,6 @@ class PwaController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
@@ -85,7 +75,7 @@ class PwaController extends Controller
     }
 
     /**
-     * Activate PWA for the current tenant.
+     * Activate PWA for the current domain.
      *
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
@@ -99,7 +89,7 @@ class PwaController extends Controller
     }
 
     /**
-     * Deactivate PWA for the current tenant.
+     * Deactivate PWA for the current domain.
      *
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
@@ -113,34 +103,10 @@ class PwaController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param \App\PwaSetting $pwaSetting
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Setting $Setting)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\PwaSetting $pwaSetting
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Setting $Setting)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \App\PwaSetting          $pwaSetting
+     * @param \CodexShaper\PWA\Model\Setting          $Setting
      *
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
@@ -203,7 +169,7 @@ class PwaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\PwaSetting $pwaSetting
+     * @param \CodexShaper\PWA\Model\Setting $Setting
      *
      * @throws \Exception
      *
@@ -405,11 +371,11 @@ class PwaController extends Controller
     }
 
     /**
-     * Return serviceworker.js content.
+     * Return serviceworker register content.
      *
      * @return \Illuminate\Http\Response
      */
-    public function registerServiceWorker()
+    public function serviceWorkerRegisterContent()
     {
         $pwa = $this->getPwaInstance();
 
@@ -492,13 +458,14 @@ SERVICE_WORKER;
     }
 
     /**
-     * Generate service worker registerar.
+     * Register service worker.
      *
-     * @return \App\PwaSetting
+     * @return string
      */
     protected function generateServiceWorkerRegister()
     {
         $serviceworker_route = route('pwa.serviceworker');
+         $scope = config('pwa.scope');
 
         return <<<REGISTER_SERVICE_WORKER
             // Get serviceworker contents
@@ -506,28 +473,33 @@ SERVICE_WORKER;
             // Initialize the service worker
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register(serviceworker, {
-                    scope: '.'
+                    scope: "$scope"
                 }).then(function (registration) {
                     // Registration was successful
-                    console.log('Laravel PWA: ServiceWorker registration successful with scope: ', registration.scope);
+                    console.log('Laravel PWA enable successfully. Enjoy it!');
                 }, function (err) {
                     // registration failed
-                    console.log('Laravel PWA: ServiceWorker registration failed: ', err);
+                    console.log('Laravel PWA registration failed. Please check the error: ', err);
                 });
             }
 REGISTER_SERVICE_WORKER;
     }
 
     /**
-     * Get PwaSetting instance.
+     * Get Setting instance.
      *
-     * @return \App\PwaSetting
+     * @return \CodexShaper\PWA\Model\Setting
      */
     public function getPwaInstance()
     {
         return Setting::where('domain', '=', request()->getHttpHost())->first();
     }
 
+    /**
+     * Return storage asset.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function asset($path)
     {
         try {
