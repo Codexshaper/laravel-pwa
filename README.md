@@ -52,3 +52,5 @@ $(".custom-file-input").on("change", function() {
 ## Contributors
 
 * **Md Abu Ahsan Basir** - *Creator and Maintainer* - [github](https://github.com/maab16)
+
+## Concept from [silviolleite](https://github.com/silviolleite/laravel-pwa)
