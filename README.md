@@ -40,6 +40,15 @@ OR
 
 ## Finaly configure your own information. Go to {{url}}/pwa
 
+#### Additionaly you may add below script after all js loaded to work perfectly bootstrap 4 custom file input
+
+```
+$(".custom-file-input").on("change", function() {
+  var fileName = $(this).val().split("\\").pop();
+  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+});
+```
+
 ## Contributors
 
 * **Md Abu Ahsan Basir** - *Creator and Maintainer* - [github](https://github.com/maab16)
