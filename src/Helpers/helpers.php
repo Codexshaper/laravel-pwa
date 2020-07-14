@@ -6,7 +6,8 @@ if (!function_exists('pwa_asset')) {
     /**
      * Get asset from given path.
      *
-     * @param  string  $path
+     * @param string $path
+     *
      * @return \Illuminate\Http\Response
      */
     function pwa_asset($path)
@@ -48,6 +49,7 @@ if (!function_exists('last_icon_src')) {
     function last_icon_src()
     {
         $lastIcon = end(pwa_settings()->data['manifest']['icons']);
+
         return $lastIcon['path'];
     }
 }

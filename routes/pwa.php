@@ -1,24 +1,24 @@
 <?php
 
-Route::group(['middleware' => 'web'], function(){
+Route::group(['middleware' => 'web'], function () {
     Route::get('/pwa/assets/{path?}', '\CodexShaper\PWA\Http\Controllers\PwaController@asset')
         ->where('path', '(.*)')
         ->name('pwa.asset');
     Route::get(
-        'serviceworker', 
+        'serviceworker',
         '\CodexShaper\PWA\Http\Controllers\PwaController@serviceWorker'
     )->name('pwa.serviceworker');
     Route::get(
-        'register-serviceworker', 
+        'register-serviceworker',
         '\CodexShaper\PWA\Http\Controllers\PwaController@registerServiceWorker'
     )->name('pwa.serviceworker.register');
     Route::get(
-        'offline', 
+        'offline',
         '\CodexShaper\PWA\Http\Controllers\PwaController@offline'
     )->name('pwa.offline');
     Route::group(['prefix' => 'pwa'], function () {
         Route::get(
-            'manifest', 
+            'manifest',
             '\CodexShaper\PWA\Http\Controllers\PwaController@manifest'
         )->name('pwa.manifest');
     });
@@ -33,4 +33,3 @@ Route::group(['middleware' => 'web'], function(){
         Route::post('deactivate', '\CodexShaper\PWA\Http\Controllers\PwaController@deactivate')->name('pwa.deactivate');
     });
 });
-

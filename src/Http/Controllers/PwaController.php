@@ -37,7 +37,7 @@ class PwaController extends Controller
         }
 
         File::copyDirectory(
-            config('pwa.icons_path', __DIR__ . '/../../../resources/icons'), 
+            config('pwa.icons_path', __DIR__.'/../../../resources/icons'),
             storage_path('app/public/pwa/images/icons')
         );
 
@@ -105,8 +105,8 @@ class PwaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \CodexShaper\PWA\Model\Setting          $Setting
+     * @param \Illuminate\Http\Request       $request
+     * @param \CodexShaper\PWA\Model\Setting $Setting
      *
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
@@ -465,7 +465,7 @@ SERVICE_WORKER;
     protected function generateServiceWorkerRegister()
     {
         $serviceworker_route = route('pwa.serviceworker');
-         $scope = config('pwa.scope');
+        $scope = config('pwa.scope');
 
         return <<<REGISTER_SERVICE_WORKER
             // Get serviceworker contents
