@@ -10,7 +10,7 @@ Route::group(['middleware' => 'web'], function(){
     )->name('pwa.serviceworker');
     Route::get(
         'register-serviceworker', 
-        '\CodexShaper\PWA\Http\Controllers\PwaController@registerServiceWorker'
+        '\CodexShaper\PWA\Http\Controllers\PwaController@serviceWorkerRegisterContent'
     )->name('pwa.serviceworker.register');
     Route::get(
         'offline', 
