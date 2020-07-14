@@ -80,9 +80,6 @@ class PwaServiceProvider extends ServiceProvider
             'pwa.migrations'    => [
                 __DIR__.'/../database/migrations/' => database_path('migrations'),
             ],
-            'pwa.migrations'    => [
-                __DIR__.'/../database/migrations/' => database_path('migrations'),
-            ],
             'pwa.tenant.migrations'    => [
                 __DIR__.'/../database/migrations/' => database_path('migrations/tenant'),
             ],

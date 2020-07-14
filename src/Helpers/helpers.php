@@ -47,7 +47,8 @@ if (!function_exists('last_icon_src')) {
      */
     function last_icon_src()
     {
-        $lastIcon = end(pwa_settings()->data['manifest']['icons']);
+        $icons = pwa_settings()->data['manifest']['icons'];
+        $lastIcon = end($icons);
         return $lastIcon['path'];
     }
 }
