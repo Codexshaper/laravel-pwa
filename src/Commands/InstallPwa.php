@@ -66,7 +66,7 @@ class InstallPwa extends Command
     {
         $this->info('Publishing the PWA assets, database, and config files');
         // Publish only relevant resources on install
-        $tags = ['pwa.tenant.migrations', 'pwa.config', 'pwa.views', 'pwa.lang'];
+        $tags = ['pwa.migrations', 'pwa.tenant.migrations', 'pwa.config', 'pwa.views', 'pwa.lang'];
         $this->call('vendor:publish', ['--provider' => PwaServiceProvider::class, '--tag' => $tags]);
 
         $this->info('Migrating the database tables into your application');
