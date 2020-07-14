@@ -3,7 +3,6 @@
 namespace CodexShaper\PWA;
 
 use CodexShaper\PWA\Commands\InstallPwa;
-use CodexShaper\PWA\Model\Setting;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 
