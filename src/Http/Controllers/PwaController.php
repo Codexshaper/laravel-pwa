@@ -465,7 +465,7 @@ SERVICE_WORKER;
     protected function generateServiceWorkerRegister()
     {
         $serviceworker_route = route('pwa.serviceworker');
-         $scope = config('pwa.scope');
+         $scope = config('pwa.scope', '.');
 
         return <<<REGISTER_SERVICE_WORKER
             // Get serviceworker contents
@@ -473,7 +473,7 @@ SERVICE_WORKER;
             // Initialize the service worker
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register(serviceworker, {
-                    scope: "$scope"
+                    scope: '$scope'
                 }).then(function (registration) {
                     // Registration was successful
                     console.log('Laravel PWA enable successfully. Enjoy it!');

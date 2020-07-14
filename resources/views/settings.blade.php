@@ -166,7 +166,7 @@
                                     <div class="input-group mb-3">
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input" id="{{ $key }}" name="icons[{{ $key }}]" data-default_placeholder="{{ __('pwa.change-icon') }}" accept="image/x-png">
-                                            <label class="custom-file-label" for="{{ $key }}" aria-describedby="{{ $key }}"></label>
+                                            <label class="custom-file-label" for="{{ $key }}" aria-describedby="{{ $key }}">{{  __('pwa.change-icon') }}</label>
                                         </div>
                                     </div>
                                     <img src="{{ $icon['path'] }}" alt="{{ $key }}" style="max-width:100px;">
@@ -192,7 +192,7 @@
                                     <div class="input-group mb-3">
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input" id="{{ $splash }}" name="splashes[{{$splash }}]" data-default_placeholder="{{ __('pwa.change-splash') }}" accept="image/x-png">
-                                            <label class="custom-file-label" for="{{ $splash }}" aria-describedby="{{ $splash }}"></label>
+                                            <label class="custom-file-label" for="{{ $splash }}" aria-describedby="{{ $splash }}">{{ __('pwa.change-splash') }}</label>
                                         </div>
                                     </div>
                                     <img src="{{ $path }}" alt="{{ $splash }}" style="max-width:100px;">
