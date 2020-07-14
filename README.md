@@ -11,6 +11,10 @@ Installable PWA for laravel. Implement PWA in your laravel website within 5 mins
 ## Requirements
 It only suppoorts HTTPS and localhost (both HTTP and HTTPS)
 
+#### Click here to see video instruction.
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/kDcy5cFH670/0.jpg)](https://www.youtube.com/watch?v=kDcy5cFH670)
+
 ## Download
 ```
 composer require codexshaper/laravel-pwa
