@@ -43,10 +43,13 @@ class PwaController extends Controller
     public function store(Request $request)
     {
         if (!File::isDirectory(storage_path('app/public/pwa/images/icons'))) {
-            File::makeDirectory(storage_path('app/public/pwa/images/icons'), 0777, true);
+            Storage::makeDirectory('public/pwa/images/icons', 0777, true);
         }
 
-        File::copyDirectory(public_path().'/images/icons', storage_path('app/public/pwa/images/icons'));
+        File::copyDirectory(
+            config('pwa.icons_path', __DIR__ . '/../../../resources/icons'), 
+            storage_path('app/public/pwa/images/icons')
+        );
 
         $pwa = $this->getPwaInstance();
 
